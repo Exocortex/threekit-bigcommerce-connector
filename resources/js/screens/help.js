@@ -52,7 +52,7 @@ export default class Help extends React.Component {
               ) : (
                 <Content>
                   <h4>
-                    I've put a Threekit widget on my store but I cannot see
+                    I have put a Threekit widget on my store but I cannot see
                     anything
                   </h4>
                   <p>Try the following possible solutions:</p>
