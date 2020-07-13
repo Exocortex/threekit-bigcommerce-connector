@@ -55,7 +55,7 @@ export default class Help extends React.Component {
                     I've put a Threekit widget on my store but I cannot see
                     anything.
                   </h4>
-                  <p>Try the following possible solutions:</p>
+                  <p>Try the following to troubleshoot:</p>
                   <ul>
                     <li>
                       Make sure your Javascript environment matches the location
