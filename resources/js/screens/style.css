@@ -1,0 +1,10 @@
+.site-page-header {
+    border: 1px solid rgb(235, 237, 240);
+  }
+
+.settings-form{
+    margin: auto!important;
+}
+.alert-container{
+  margin: 5px;
+}

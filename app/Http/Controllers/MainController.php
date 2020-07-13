@@ -12,6 +12,8 @@ class MainController extends BaseController
 {
     protected $baseURL;
 
+    
+
     public function __construct()
     {
         $this->baseURL = env('APP_URL');
@@ -169,7 +171,11 @@ class MainController extends BaseController
 
         if ($request->method() === 'PUT') {
             $requestConfig['body'] = $request->getContent();
+        } else if ($request->method() === 'POST') {
+            $requestConfig['body'] = $request->getContent();
         }
+
+        
 
         $client = new Client();
         $result = $client->request($request->method(), 'https://api.bigcommerce.com/' . $this->getStoreHash($request) . '/' . $endpoint, $requestConfig);

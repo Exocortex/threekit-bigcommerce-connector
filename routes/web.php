@@ -13,7 +13,7 @@
 
 Route::get('/{url?}', function () {
     return view('app');
-})->where('', 'list');
+})->where('', 'list', 'test', 'settings');
 
 Route::group(['prefix' => 'auth'], function () {
   Route::get('install', 'MainController@install');

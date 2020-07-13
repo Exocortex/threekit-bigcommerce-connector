@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/threekit', 'ThreekitController@index');
+Route::get('/threekit/{id}', 'ThreekitController@show');
+Route::post('/threekit', 'ThreekitController@store');
+Route::delete('/threekit/{id}', 'ThreekitController@delete');

@@ -1,5 +1,42 @@
 
 export const ApiService = {
+  // Get all scripts in the store
+  getBrandProducts(resource, params) {
+    return axios({
+      method: 'get',
+      url: `/bc-api/${resource}`,
+      params,
+    });
+  },
+  getScripts(resource, params) {
+    return axios({
+      method: 'get',
+      url: `/bc-api/${resource}`,
+      params,
+    });
+  },
+  getToken(params) {
+    return axios({
+      method: 'get',
+      url: `/api/threekit`,
+      params,
+    });
+  },
+  addToken(data) {
+    return axios({
+      method: 'post',
+      url: `/api/threekit`,
+      data,
+    });
+  },
+  // Add a script to the store
+  addScript(resource, data) {
+    return axios({
+      method: 'post',
+      url: `/bc-api/${resource}`,
+      data,
+    });
+  },
   getOrders(params) {
     params = Object.assign({
       page: 1,
@@ -52,6 +89,13 @@ export const ApiService = {
   updateResourceEntry(resource, data) {
     return axios({
       method: 'put',
+      url: `/bc-api/${resource}`,
+      data,
+    });
+  },
+  createResourceEntry(resource, data) {
+    return axios({
+      method: 'post',
       url: `/bc-api/${resource}`,
       data,
     });
