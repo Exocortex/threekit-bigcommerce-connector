@@ -3,9 +3,10 @@ import { Spinner, Table } from "../components";
 import "./style.css";
 import { ApiService } from "../services/ApiService";
 
-import { Layout, Button, PageHeader, Form, Input, Alert, Spin } from "antd";
+import { Layout, Button, PageHeader, Form, Input, Alert, Collapse } from "antd";
 
 const { Header, Content, Sider } = Layout;
+const { Panel } = Collapse;
 
 // Form styles
 const formLayout = {
@@ -266,7 +267,6 @@ export default class Settings extends React.Component {
           currentToken: this.extractFirstText(res.data.data.template),
         });
 
-
         // if The brand is 38 (Threekit) list product informatiom
         // res.data.data.forEach(e => e.brand_id == 38? console.log(e) : console.log(""))
       })
@@ -311,7 +311,9 @@ export default class Settings extends React.Component {
     //will mount
 
     // Test widget placement
-    ApiService.getResourceEntry("v3/content/regions?templateFile=pages/product").then((res) => {
+    ApiService.getResourceEntry(
+      "v3/content/regions?templateFile=pages/product"
+    ).then((res) => {
       console.log("TEMPLATE REGIONS");
       console.log(res);
     });
@@ -379,6 +381,32 @@ export default class Settings extends React.Component {
               <b>Current Org Token: </b>
               {this.state.loading ? "loading..." : this.state.currentToken}
             </p>
+            {this.state.tkWidgetTemplateId ? (
+                        <div>
+                          <Collapse>
+                            <Panel header={"Uninstall Directions"}>
+                              Delete Threekit widget before uninstalling the
+                              app. If you accidentally delete the widget, save
+                              your org token to re-create it.<br/>
+                              <Button
+                                type="primary"
+                                htmlType="submit"
+                                onClick={() =>
+                                  this.deleteWidgetTemplate(
+                                    this.state.tkWidgetTemplateId
+                                  )
+                                }
+                              >
+                                Delete Widget.
+                              </Button>
+                            </Panel>
+                          </Collapse>
+                        </div>
+                      ) : (
+                        <p>
+                          No Threekit widget. Save your JS enviornment and Threekit org token to create it. 
+                        </p>
+                      )}
           </Content>
         </PageHeader>
         <Layout>
@@ -489,19 +517,9 @@ export default class Settings extends React.Component {
                         Save Token
                       </Button>
                     </Form.Item>
-                    <Form.Item {...tailLayout}>
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        onClick={() =>
-                          this.deleteWidgetTemplate(
-                            this.state.tkWidgetTemplateId
-                          )
-                        }
-                      >
-                        DELETE WIDGET
-                      </Button>
-                    </Form.Item>
+                    {/* <Form.Item {...tailLayout}>
+              
+                    </Form.Item> */}
                   </Form>
                 </Content>
               )}

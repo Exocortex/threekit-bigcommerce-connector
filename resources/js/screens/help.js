@@ -42,8 +42,7 @@ export default class Help extends React.Component {
           className="site-page-header"
           // onBack={() => null}
           title="Threekit Help"
-        >
-        </PageHeader>
+        ></PageHeader>
         <Layout>
           <Content>
             <div className="container">
@@ -51,6 +50,12 @@ export default class Help extends React.Component {
                 <Spinner />
               ) : (
                 <Content>
+                  {/* <h4>Delete Widget</h4>
+                  <p>
+                    Deleting the Threekit widget will remove it from the
+                    pagebuilder options. If you save a Threekit token, the
+                    widget will be automatically re-created.
+                  </p> */}
                   <h4>
                     I've put a Threekit widget on my store but I cannot see
                     anything.
@@ -62,34 +67,33 @@ export default class Help extends React.Component {
                       of your Threekit org.
                     </li>
                     <li>
-                      Check your Threekit
+                      Check your Threekit{" "}
                       <a
                         href="https://docs.threekit.com/docs/tokens"
                         target="_blank"
                       >
-                        token
+                        token,{" "}
                       </a>
-                      ,
                       <a
                         href="https://docs.threekit.com/docs/catalog-items"
                         target="_blank"
                       >
-                        catalog item
+                        catalog item,{" "}
                       </a>
-                      , and/or
+                      and/or{" "}
                       <a
                         href="https://docs.threekit.com/docs/assets"
                         target="_blank"
                       >
-                        scene ID
+                        scene ID{" "}
                       </a>
                       and make sure they are correct
                     </li>
                   </ul>
                   <p>
-                    Reference our
+                    Reference our{" "}
                     <a href="https://docs.threekit.com/docs" target="_blank">
-                      docs
+                      docs{" "}
                     </a>
                     for additional information.
                   </p>
