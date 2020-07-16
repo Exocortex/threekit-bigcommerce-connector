@@ -308,7 +308,7 @@ export default class Settings extends React.Component {
   }
 
   componentWillMount() {
-    //will mount
+    //will mount comp
 
     // Test widget placement
     // ApiService.getResourceEntry(
