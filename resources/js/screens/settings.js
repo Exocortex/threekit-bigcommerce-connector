@@ -280,7 +280,7 @@ export default class Settings extends React.Component {
     ApiService.getScripts("v3/content/scripts")
       .then((res) => {
         // console.log(res);
-        // this.setState({ loading: false });
+        this.setState({ loading: false });
 
         if (res.data.data.length == 0) {
           console.log("no scripts");
