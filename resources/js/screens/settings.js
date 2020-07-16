@@ -202,7 +202,7 @@ export default class Settings extends React.Component {
 
   createWidgetTemplate(token) {
     ApiService.createResourceEntry(
-      "v3/content/widget-templates/",
+      "v3/content/widget-templates",
       JSON.stringify({
         name: "Threekit",
         template: `<div id='tkplayer_{{assetId}}' style='height: {{ height }}; width: {{ width }}'></div><script>     window
@@ -311,12 +311,12 @@ export default class Settings extends React.Component {
     //will mount
 
     // Test widget placement
-    ApiService.getResourceEntry(
-      "v3/content/regions?templateFile=pages/product"
-    ).then((res) => {
-      console.log("TEMPLATE REGIONS");
-      console.log(res);
-    });
+    // ApiService.getResourceEntry(
+    //   "v3/content/regions?templateFile=pages/product"
+    // ).then((res) => {
+    //   console.log("TEMPLATE REGIONS");
+    //   console.log(res);
+    // });
 
 // Check for scripts
     this.getScripts();
@@ -326,28 +326,28 @@ export default class Settings extends React.Component {
     //   console.log(res)
     // })
 
-    ApiService.getResourceEntry("v3/content/widget-templates").then((res) => {
-      console.log("widget check");
-      console.log(res);
-      this.setState({ loading: false });
-      if (res.data.data.length < 1) {
-        console.log("no widget templates");
-      } else {
-        res.data.data.forEach((e) => {
-          if (e.name == "Threekit") {
-            this.setState({ hasTkWidgetTemplate: true });
-            console.log("widget-templates");
-            console.log("grab text");
-            console.log(this.extractFirstText(e.template));
+    // ApiService.getResourceEntry("v3/content/widget-templates").then((res) => {
+    //   console.log("widget check");
+    //   console.log(res);
+    //   this.setState({ loading: false });
+    //   if (res.data.data.length < 1) {
+    //     console.log("no widget templates");
+    //   } else {
+    //     res.data.data.forEach((e) => {
+    //       if (e.name == "Threekit") {
+    //         this.setState({ hasTkWidgetTemplate: true });
+    //         console.log("widget-templates");
+    //         console.log("grab text");
+    //         console.log(this.extractFirstText(e.template));
 
-            this.setState({ currentToken: this.extractFirstText(e.template) });
-            console.log(e.template.includes("authToken"));
+    //         this.setState({ currentToken: this.extractFirstText(e.template) });
+    //         console.log(e.template.includes("authToken"));
 
-            this.setState({ tkWidgetTemplateId: e.uuid });
-          }
-        });
-      }
-    });
+    //         this.setState({ tkWidgetTemplateId: e.uuid });
+    //       }
+    //     });
+    //   }
+    // });
 
     ApiService.getResourceEntry("v3/content/widgets").then((res) => {
       console.log("widgets proper");
