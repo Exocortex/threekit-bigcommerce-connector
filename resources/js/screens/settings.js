@@ -415,9 +415,6 @@ export default class Settings extends React.Component {
         <Layout>
           <Content>
             <div className="container">
-              {this.state.loading ? (
-                <Spinner />
-              ) : (
                 <Content>
                   <div className="alert-container">
                     {this.state.isSaved ? (
@@ -525,7 +522,6 @@ export default class Settings extends React.Component {
                     </Form.Item> */}
                   </Form>
                 </Content>
-              )}
             </div>
           </Content>
         </Layout>
