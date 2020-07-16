@@ -351,7 +351,7 @@ export default class Settings extends React.Component {
 
     ApiService.getResourceEntry("v3/content/widgets").then((res) => {
       console.log("widgets proper");
-      // this.setState({ loading: false });
+      this.setState({ loading: false });
       console.log(res);
     });
   }
