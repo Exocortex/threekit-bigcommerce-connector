@@ -284,7 +284,7 @@ export default class Settings extends React.Component {
 
         if (res.data.data.length == 0) {
           console.log("no scripts");
-          this.setState({ loading: false });
+          // this.setState({ loading: false });
         } else
           res.data.data.forEach((e) => {
             if (e.name == "Threekit") {
@@ -386,7 +386,7 @@ export default class Settings extends React.Component {
               <b>Current Org Token: </b>
               {this.state.loading ? "loading..." : this.state.currentToken}
             </p>
-            {this.state.tkWidgetTemplateId ? (
+            {this.state.currentToken ? (
                         <div>
                           <Collapse>
                             <Panel header={"Uninstall Directions"}>
