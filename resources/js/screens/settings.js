@@ -280,10 +280,11 @@ export default class Settings extends React.Component {
     ApiService.getScripts("v3/content/scripts")
       .then((res) => {
         // console.log(res);
-        this.setState({ loading: false });
+        
 
         if (res.data.data.length == 0) {
           console.log("no scripts");
+          this.setState({ loading: false });
         } else
           res.data.data.forEach((e) => {
             if (e.name == "Threekit") {
@@ -293,9 +294,11 @@ export default class Settings extends React.Component {
                 tkJS: e.src,
                 hasScript: true,
                 scriptId: e.uuid,
+                loading: false,
                 currentJS: e.src,
               });
             } else if (e.name != "Threekit") {
+              this.setState({ loading: false });
             }
           });
       })
