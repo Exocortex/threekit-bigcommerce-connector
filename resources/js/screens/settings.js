@@ -415,6 +415,7 @@ export default class Settings extends React.Component {
         <Layout>
           <Content>
             <div className="container">
+                <Spinner />
                 <Content>
                   <div className="alert-container">
                     {this.state.isSaved ? (
