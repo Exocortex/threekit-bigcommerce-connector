@@ -318,7 +318,7 @@ export default class Settings extends React.Component {
       console.log(res);
     });
 
-    // Check if there are any scripts.
+// Check for scripts
     this.getScripts();
 
     // ApiService.getResourceEntry("v3/content/regions?templateFile=pages/product").then((res) => {
