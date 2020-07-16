@@ -280,7 +280,6 @@ export default class Settings extends React.Component {
     ApiService.getScripts("v3/content/scripts")
       .then((res) => {
         // console.log(res);
-        
 
         if (res.data.data.length == 0) {
           console.log("no scripts");
@@ -321,7 +320,7 @@ export default class Settings extends React.Component {
     //   console.log(res);
     // });
 
-// Check for scripts
+    // Check for scripts
     this.getScripts();
 
     // ApiService.getResourceEntry("v3/content/regions?templateFile=pages/product").then((res) => {
@@ -351,8 +350,6 @@ export default class Settings extends React.Component {
         });
       }
     });
-
-    
 
     ApiService.getResourceEntry("v3/content/widgets").then((res) => {
       console.log("widgets proper");
@@ -386,32 +383,32 @@ export default class Settings extends React.Component {
               <b>Current Org Token: </b>
               {this.state.loading ? "loading..." : this.state.currentToken}
             </p>
-            {this.state.currentToken != "No token saved" ? (
-                        <div>
-                          <Collapse>
-                            <Panel header={"Uninstall Directions"}>
-                              Delete Threekit widget before uninstalling the
-                              app. If you accidentally delete the widget, save
-                              your org token to re-create it.<br/>
-                              <Button
-                                type="primary"
-                                htmlType="submit"
-                                onClick={() =>
-                                  this.deleteWidgetTemplate(
-                                    this.state.tkWidgetTemplateId
-                                  )
-                                }
-                              >
-                                Delete Widget.
-                              </Button>
-                            </Panel>
-                          </Collapse>
-                        </div>
-                      ) : (
-                        <p>
-                          No Threekit widget. Save your JS enviornment and Threekit org token to create it. 
-                        </p>
-                      )}
+            {/* {this.state.currentToken != "No token saved" ? (
+              <div>
+                <Collapse>
+                  <Panel header={"Uninstall Directions"}>
+                    Delete Threekit widget before uninstalling the app. If you
+                    accidentally delete the widget, save your org token to
+                    re-create it.
+                    <br />
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      onClick={() =>
+                        this.deleteWidgetTemplate(this.state.tkWidgetTemplateId), console.log("v3/content/widget-templates/" + this.state.tkWidgetTemplateId)
+                      }
+                    >
+                      Delete Widget.
+                    </Button>
+                  </Panel>
+                </Collapse>
+              </div>
+            ) : (
+              <p>
+                No Threekit widget. Save your JS enviornment and Threekit org
+                token to create it.
+              </p>
+            )} */}
           </Content>
         </PageHeader>
         <Layout>
