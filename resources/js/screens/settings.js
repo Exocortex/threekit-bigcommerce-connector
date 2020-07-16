@@ -386,7 +386,7 @@ export default class Settings extends React.Component {
               <b>Current Org Token: </b>
               {this.state.loading ? "loading..." : this.state.currentToken}
             </p>
-            {this.state.currentToken ? (
+            {this.state.currentToken != "No token saved" ? (
                         <div>
                           <Collapse>
                             <Panel header={"Uninstall Directions"}>
