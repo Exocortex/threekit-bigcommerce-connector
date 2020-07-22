@@ -61,18 +61,18 @@ export default class Settings extends React.Component {
   // Function to create scripts with form info
   addScript(url) {
     var res = encodeURI(url);
-    ApiService.addScript(
+    ApiService.createResourceEntry(
       "v3/content/scripts",
       JSON.stringify({
         name: "Threekit",
-        description: "Enable configurable 3D & AR for your products",
+        description: "Enable configurable 3D and AR for your products",
         // html:
         // '<script src=\\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js\\"></script>',
         src: res,
         auto_uninstall: true,
         load_method: "default",
         location: "head",
-        visibility: "all_pages",
+        visibility: "storefront",
         kind: "src",
         consent_category: "essential",
       })
@@ -100,7 +100,7 @@ export default class Settings extends React.Component {
         auto_uninstall: true,
         load_method: "default",
         location: "head",
-        visibility: "all_pages",
+        visibility: "storefront",
         kind: "src",
         consent_category: "essential",
       })
@@ -191,10 +191,13 @@ export default class Settings extends React.Component {
   }
 
   deleteWidgetTemplate(id) {
+    console.log(id)
     ApiService.deleteResourceEntry("v3/content/widget-templates/" + id).then(
       (res) => {
         console.log("DELETED");
         console.log(res);
+        this.setState({ isSaved: true,  currentToken: "No token saved", hasTkWidgetTemplate: null});
+
         // if The brand is 38 (Threekit) list product informatiom
         // res.data.data.forEach(e => e.brand_id == 38? console.log(e) : console.log(""))
       }
@@ -272,6 +275,7 @@ export default class Settings extends React.Component {
         // res.data.data.forEach(e => e.brand_id == 38? console.log(e) : console.log(""))
       })
       .catch((error) => {
+        
         // this.setState({ submitErr: true });
         console.log(error);
       });
@@ -280,7 +284,7 @@ export default class Settings extends React.Component {
   getScripts() {
     ApiService.getScripts("v3/content/scripts")
       .then((res) => {
-        // console.log(res);
+        console.log(res);
 
         if (res.data.data.length == 0) {
           console.log("no scripts");
@@ -310,25 +314,7 @@ export default class Settings extends React.Component {
       });
   }
 
-  componentWillMount() {
-    //will mount comp
-
-    // Test widget placement
-    // ApiService.getResourceEntry(
-    //   "v3/content/regions?templateFile=pages/product"
-    // ).then((res) => {
-    //   console.log("TEMPLATE REGIONS");
-    //   console.log(res);
-    // });
-
-    // Check for scripts
-    this.getScripts();
-
-    // ApiService.getResourceEntry("v3/content/regions?templateFile=pages/product").then((res) => {
-    //   console.log("PAGES")
-    //   console.log(res)
-    // })
-
+  getWidgets(){
     ApiService.getResourceEntry("v3/content/widget-templates").then((res) => {
       console.log("widget check");
       console.log(res);
@@ -351,6 +337,29 @@ export default class Settings extends React.Component {
         });
       }
     });
+  }
+
+  componentWillMount() {
+    //will mount comp
+
+    // Test widget placement
+    // ApiService.getResourceEntry(
+    //   "v3/content/regions?templateFile=pages/product"
+    // ).then((res) => {
+    //   console.log("TEMPLATE REGIONS");
+    //   console.log(res);
+    // });
+    this.getWidgets();
+
+    // Check for scripts
+    this.getScripts();
+
+    // ApiService.getResourceEntry("v3/content/regions?templateFile=pages/product").then((res) => {
+    //   console.log("PAGES")
+    //   console.log(res)
+    // })
+
+  
 
     ApiService.getResourceEntry("v3/content/widgets").then((res) => {
       console.log("widgets proper");
@@ -385,7 +394,7 @@ export default class Settings extends React.Component {
               <b>Current Org Token: </b>
               {this.state.loading ? "loading..." : this.state.currentToken}
             </p>
-            {/* {this.state.currentToken != "No token saved" ? (
+            {this.state.currentToken != "No token saved" ? (
               <div>
                 <Collapse>
                   <Panel header={"Uninstall Directions"}>
@@ -397,7 +406,7 @@ export default class Settings extends React.Component {
                       type="primary"
                       htmlType="submit"
                       onClick={() =>
-                        this.deleteWidgetTemplate(this.state.tkWidgetTemplateId), console.log("v3/content/widget-templates/" + this.state.tkWidgetTemplateId)
+                        this.deleteWidgetTemplate(this.state.tkWidgetTemplateId)
                       }
                     >
                       Delete Widget.
@@ -410,7 +419,7 @@ export default class Settings extends React.Component {
                 No Threekit widget. Save your JS enviornment and Threekit org
                 token to create it.
               </p>
-            )} */}
+            )}
           </Content>
         </PageHeader>
         <Layout>
@@ -520,6 +529,7 @@ export default class Settings extends React.Component {
                       >
                         Save Token
                       </Button>
+                   
                     </Form.Item>
                     {/* <Form.Item {...tailLayout}>
               
