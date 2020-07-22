@@ -2,6 +2,7 @@ import React from "react";
 import { Spinner, Table } from "../components";
 import "./style.css";
 import { ApiService } from "../services/ApiService";
+import { Link } from "react-router-dom";
 
 import { Layout, Button, PageHeader, Form, Input, Alert, Collapse } from "antd";
 
@@ -370,9 +371,10 @@ export default class Settings extends React.Component {
           title="Threekit Setup"
         >
           <Content>
-            Here is where you will enter your Threekit credentials to
-            authenticate your BigCommerce store with your Threekit org. Enter
-            your Threekit Javascript environment link and org token.
+            Welcome to Threekit's BigCommerce connector. To get started,
+            authenticate your store by entering your Threekit details in the
+            form below. Not sure where to start? Please visit the 
+            <Link to="/help"> help</Link> screen.
             <br />
             <br />
             <p>

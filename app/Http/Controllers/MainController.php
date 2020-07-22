@@ -120,6 +120,7 @@ class MainController extends BaseController
                 $request->session()->put('owner_id', $verifiedSignedRequestData['owner']['id']);
                 $request->session()->put('owner_email', $verifiedSignedRequestData['owner']['email']);
                 $request->session()->put('store_hash', $verifiedSignedRequestData['context']);
+                $key = getUserKey($verifiedSignedRequestData['context'], $verifiedSignedRequestData['user']['id']);
             } else {
                 return redirect()->action('MainController@error')->with('error_message', 'The signed request from BigCommerce could not be validated.');
             }
@@ -192,5 +193,10 @@ class MainController extends BaseController
         $result = $this->makeBigCommerceAPIRequest($request, $endpoint);
 
         return response($result->getBody(), $result->getStatusCode())->header('Content-Type', 'application/json');
+    }
+
+    function getUserKey($storeHash, $user_id)
+    {
+        return "threekit.user:$storeHash:$user_id";
     }
 }

@@ -49,13 +49,13 @@ export default class Help extends React.Component {
               {this.state.loading ? (
                 <Spinner />
               ) : (
-                <Content>
-                  {/* <h4>Delete Widget</h4>
-                  <p>
-                    Deleting the Threekit widget will remove it from the
-                    pagebuilder options. If you save a Threekit token, the
-                    widget will be automatically re-created.
-                  </p> */}
+                <Content className="help-content">
+                  <h4>
+                    Not a Threekit customer?
+                  </h4>
+                  <p>Learn more about our platform <a href="https://www.threekit.com/platform-overview" target="_blank">here</a>.</p>
+                  <hr />
+            
                   <h4>
                     I've put a Threekit widget on my store but I cannot see
                     anything.
@@ -97,6 +97,12 @@ export default class Help extends React.Component {
                     </a>
                     for additional information.
                   </p>
+                  <hr/> 
+                  <h4>
+                    Need additional help?
+                  </h4>
+                  <p>Visit our support page <a href="https://www.threekit.com/success" target="_blank">here</a>.</p>
+                  <hr />
                 </Content>
               )}
             </div>
