@@ -180,8 +180,8 @@ export default class Settings extends React.Component {
         ],
       })
     ).then((res) => {
-      console.log("UPDATED");
-      console.log(res);
+      // console.log("UPDATED");
+      // console.log(res);
       this.setState({ loading: false });
       this.setState({ isSaved: true });
 
@@ -191,11 +191,11 @@ export default class Settings extends React.Component {
   }
 
   deleteWidgetTemplate(id) {
-    console.log(id)
+    // console.log(id)
     ApiService.deleteResourceEntry("v3/content/widget-templates/" + id).then(
       (res) => {
-        console.log("DELETED");
-        console.log(res);
+        // console.log("DELETED");
+        // console.log(res);
         this.setState({ isSaved: true,  currentToken: "No token saved", hasTkWidgetTemplate: null});
 
         // if The brand is 38 (Threekit) list product informatiom
@@ -263,8 +263,8 @@ export default class Settings extends React.Component {
       })
     )
       .then((res) => {
-        console.log("CREATED");
-        console.log(res);
+        // console.log("CREATED");
+        // console.log(res);
         this.setState({
           isSaved: true,
           loading: false,
@@ -284,15 +284,15 @@ export default class Settings extends React.Component {
   getScripts() {
     ApiService.getScripts("v3/content/scripts")
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         if (res.data.data.length == 0) {
-          console.log("no scripts");
+          // console.log("no scripts");
           // this.setState({ loading: false });
         } else
           res.data.data.forEach((e) => {
             if (e.name == "Threekit") {
-              console.log(e.src);
+              // console.log(e.src);
               this.setState({
                 isJSLoading: false,
                 tkJS: e.src,
@@ -316,21 +316,21 @@ export default class Settings extends React.Component {
 
   getWidgets(){
     ApiService.getResourceEntry("v3/content/widget-templates").then((res) => {
-      console.log("widget check");
-      console.log(res);
+      // console.log("widget check");
+      // console.log(res);
       this.setState({ loading: false });
       if (res.data.data.length < 1) {
-        console.log("no widget templates");
+        // console.log("no widget templates");
       } else {
         res.data.data.forEach((e) => {
           if (e.name == "Threekit") {
             this.setState({ hasTkWidgetTemplate: true });
-            console.log("widget-templates");
-            console.log("grab text");
-            console.log(this.extractFirstText(e.template));
+            // console.log("widget-templates");
+            // console.log("grab text");
+            // console.log(this.extractFirstText(e.template));
 
             this.setState({ currentToken: this.extractFirstText(e.template) });
-            console.log(e.template.includes("authToken"));
+            // console.log(e.template.includes("authToken"));
 
             this.setState({ tkWidgetTemplateId: e.uuid });
           }
@@ -362,9 +362,9 @@ export default class Settings extends React.Component {
   
 
     ApiService.getResourceEntry("v3/content/widgets").then((res) => {
-      console.log("widgets proper");
+      // console.log("widgets proper");
       this.setState({ loading: false });
-      console.log(res);
+      // console.log(res);
     });
   }
 
