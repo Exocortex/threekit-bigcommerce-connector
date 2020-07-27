@@ -112,6 +112,7 @@ class MainController extends BaseController
     public function load(Request $request)
     {
         $signedPayload = $request->input('signed_payload');
+        echo "this is my echo";
         if (!empty($signedPayload)) {
             $verifiedSignedRequestData = $this->verifySignedRequest($signedPayload, $request);
             if ($verifiedSignedRequestData !== null) {
