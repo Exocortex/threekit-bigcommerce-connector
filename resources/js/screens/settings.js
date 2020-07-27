@@ -74,7 +74,7 @@ export default class Settings extends React.Component {
         location: "head",
         visibility: "storefront",
         kind: "src",
-        consent_category: "essential",
+        consent_category: "functional",
       })
     )
       .then((res) => {
@@ -102,7 +102,7 @@ export default class Settings extends React.Component {
         location: "head",
         visibility: "storefront",
         kind: "src",
-        consent_category: "essential",
+        consent_category: "functional",
       })
     )
       .then((res) => {
