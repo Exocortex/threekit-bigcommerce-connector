@@ -112,9 +112,18 @@ class MainController extends BaseController
     public function load(Request $request)
     {
         $signedPayload = $request->input('signed_payload');
+    
+
         if (!empty($signedPayload)) {
             $verifiedSignedRequestData = $this->verifySignedRequest($signedPayload, $request);
             if ($verifiedSignedRequestData !== null) {
+
+        // Test
+        $data = verifySignedRequest($request->get('signed_payload'));
+        $redis = new Credis_Client('localhost');
+        $key = getUserKey($verifiedSignedRequestData['context'], $verifiedSignedRequestData['user']['email']);
+
+        // Test
                 $request->session()->put('user_id', $verifiedSignedRequestData['user']['id']);
                 $request->session()->put('user_email', $verifiedSignedRequestData['user']['email']);
                 $request->session()->put('owner_id', $verifiedSignedRequestData['owner']['id']);
@@ -192,5 +201,10 @@ class MainController extends BaseController
         $result = $this->makeBigCommerceAPIRequest($request, $endpoint);
 
         return response($result->getBody(), $result->getStatusCode())->header('Content-Type', 'application/json');
+    }
+
+    function getUserKey($storeHash, $email)
+    {
+        return "threekit.connector:$storeHash:$email";
     }
 }
