@@ -136,8 +136,8 @@ class MainController extends BaseController
                 $request->session()->put('user_email', $verifiedSignedRequestData['user']['email']);
                 $request->session()->put('owner_id', $verifiedSignedRequestData['owner']['id']);
                 $request->session()->put('owner_email', $verifiedSignedRequestData['owner']['email']);
-                $request->session()->put('store_hash', $storeHash);
-                // $request->session()->put('store_hash', $verifiedSignedRequestData['context']);
+                // $request->session()->put('store_hash', $storeHash);
+                $request->session()->put('store_hash', $verifiedSignedRequestData['context']);
             } else {
                 return redirect()->action('MainController@error')->with('error_message', 'The signed request from BigCommerce could not be validated.');
             }
