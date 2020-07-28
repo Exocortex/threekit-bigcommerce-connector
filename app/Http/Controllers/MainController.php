@@ -89,6 +89,12 @@ class MainController extends BaseController
                 $request->session()->put('user_email', $data['user']['email']);
 
                 Redis::set('store_hash', $data['context']);
+                Redis::set('access_token', $data['access_token']);
+
+                $myhash = Redis::get('store_hash');
+                $accesstoken = Redis::get('access_token');
+
+
 
 
                 // If the merchant installed the app via an external link, redirect back to the 
@@ -127,17 +133,13 @@ class MainController extends BaseController
         if (!empty($signedPayload)) {
             $verifiedSignedRequestData = $this->verifySignedRequest($signedPayload, $request);
             if ($verifiedSignedRequestData !== null) {
-
-        // Test
-        $data = verifySignedRequest($request->get('signed_payload'));
-        $key = getUserKey($verifiedSignedRequestData['context'], $verifiedSignedRequestData['user']['email']);
-
-        // Test
                 $request->session()->put('user_id', $verifiedSignedRequestData['user']['id']);
                 $request->session()->put('user_email', $verifiedSignedRequestData['user']['email']);
                 $request->session()->put('owner_id', $verifiedSignedRequestData['owner']['id']);
                 $request->session()->put('owner_email', $verifiedSignedRequestData['owner']['email']);
-                $request->session()->put('store_hash', $verifiedSignedRequestData['context']);
+                $request->session()->put('store_hash', Redis::get('store_hash'));
+                // $request->session()->put('store_hash', $verifiedSignedRequestData['context']);
+// 
             } else {
                 return redirect()->action('MainController@error')->with('error_message', 'The signed request from BigCommerce could not be validated.');
             }
@@ -182,7 +184,8 @@ class MainController extends BaseController
         $requestConfig = [
             'headers' => [
                 'X-Auth-Client' => $this->getAppClientId(),
-                'X-Auth-Token'  => $this->getAccessToken($request),
+                // 'X-Auth-Token'  => $this->getAccessToken($request),
+                'X-Auth-Token' => Redis::get('store_hash'),
                 'Content-Type'  => 'application/json',
             ]
         ];

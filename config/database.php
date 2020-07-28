@@ -131,14 +131,14 @@ return [
             'host' => env('REDIS_HOST'),
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT'),
-            'database' => env('REDIS_DB'),
+            'database' => 0,
         ],
 
         'cache' => [
             'host' => env('REDIS_HOST'),
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT'),
-            'database' => env('REDIS_CACHE_DB'),
+            'database' => env('REDIS_CACHE_DB', 1),
         ],
 
     ],
