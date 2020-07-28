@@ -54,7 +54,6 @@ export default class Settings extends React.Component {
   }
 
   handleClose() {
-    // getScripts()
     this.setState({ isSaved: false });
     console.log("closed");
   }
@@ -66,8 +65,6 @@ export default class Settings extends React.Component {
       JSON.stringify({
         name: "Threekit",
         description: "Enable configurable 3D and AR for your products",
-        // html:
-        // '<script src=\\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js\\"></script>',
         src: res,
         auto_uninstall: true,
         load_method: "default",
@@ -84,7 +81,6 @@ export default class Settings extends React.Component {
       })
       .catch((error) => {
         console.log(error);
-        // this.setState({ submitErr: true });
       });
   }
 
@@ -94,8 +90,6 @@ export default class Settings extends React.Component {
       JSON.stringify({
         name: "Threekit",
         description: "Enable configurable 3D & AR for your products",
-        // html:
-        // '<script src=\\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js\\"></script>',
         src: url,
         auto_uninstall: true,
         load_method: "default",
@@ -109,16 +103,10 @@ export default class Settings extends React.Component {
         console.log(res.status);
         this.setState({ isSaved: true, currentJS: res.data.data.src });
 
-        // Saving the tk widget
-        // if (this.state.hasTkWidgetTemplate == false) {
-        //   createWidgetTemplate(this.state.tkToken);
-        // } else {
-        //   updateWidgetTemplate(this.state.tkWidgetTemplateId);
-        // }
+      
       })
       .catch((error) => {
         console.log(error);
-        // this.setState({ submitErr: true });
       });
   }
 
@@ -180,26 +168,18 @@ export default class Settings extends React.Component {
         ],
       })
     ).then((res) => {
-      // console.log("UPDATED");
-      // console.log(res);
+    
       this.setState({ loading: false });
       this.setState({ isSaved: true });
 
-      // if The brand is 38 (Threekit) list product informatiom
-      // res.data.data.forEach(e => e.brand_id == 38? console.log(e) : console.log(""))
     });
   }
 
   deleteWidgetTemplate(id) {
-    // console.log(id)
     ApiService.deleteResourceEntry("v3/content/widget-templates/" + id).then(
       (res) => {
-        // console.log("DELETED");
-        // console.log(res);
         this.setState({ isSaved: true,  currentToken: "No token saved", hasTkWidgetTemplate: null});
 
-        // if The brand is 38 (Threekit) list product informatiom
-        // res.data.data.forEach(e => e.brand_id == 38? console.log(e) : console.log(""))
       }
     );
   }
@@ -263,20 +243,15 @@ export default class Settings extends React.Component {
       })
     )
       .then((res) => {
-        // console.log("CREATED");
-        // console.log(res);
         this.setState({
           isSaved: true,
           loading: false,
           currentToken: this.extractFirstText(res.data.data.template),
         });
 
-        // if The brand is 38 (Threekit) list product informatiom
-        // res.data.data.forEach(e => e.brand_id == 38? console.log(e) : console.log(""))
       })
       .catch((error) => {
         
-        // this.setState({ submitErr: true });
         console.log(error);
       });
   }
@@ -284,15 +259,11 @@ export default class Settings extends React.Component {
   getScripts() {
     ApiService.getScripts("v3/content/scripts")
       .then((res) => {
-        // console.log(res);
 
         if (res.data.data.length == 0) {
-          // console.log("no scripts");
-          // this.setState({ loading: false });
         } else
           res.data.data.forEach((e) => {
             if (e.name == "Threekit") {
-              // console.log(e.src);
               this.setState({
                 isJSLoading: false,
                 tkJS: e.src,
@@ -309,28 +280,19 @@ export default class Settings extends React.Component {
       .catch((error) => {
         console.error(error);
 
-        // This is too early
-        // this.setState({ loading: false });
       });
   }
 
   getWidgets(){
     ApiService.getResourceEntry("v3/content/widget-templates").then((res) => {
-      // console.log("widget check");
-      // console.log(res);
       this.setState({ loading: false });
       if (res.data.data.length < 1) {
-        // console.log("no widget templates");
       } else {
         res.data.data.forEach((e) => {
           if (e.name == "Threekit") {
             this.setState({ hasTkWidgetTemplate: true });
-            // console.log("widget-templates");
-            // console.log("grab text");
-            // console.log(this.extractFirstText(e.template));
 
             this.setState({ currentToken: this.extractFirstText(e.template) });
-            // console.log(e.template.includes("authToken"));
 
             this.setState({ tkWidgetTemplateId: e.uuid });
           }
@@ -345,29 +307,16 @@ export default class Settings extends React.Component {
       location.reload();
     },900000)
 
-    // Test widget placement
-    // ApiService.getResourceEntry(
-    //   "v3/content/regions?templateFile=pages/product"
-    // ).then((res) => {
-    //   console.log("TEMPLATE REGIONS");
-    //   console.log(res);
-    // });
     this.getWidgets();
 
     // Check for scripts
     this.getScripts();
 
-    // ApiService.getResourceEntry("v3/content/regions?templateFile=pages/product").then((res) => {
-    //   console.log("PAGES")
-    //   console.log(res)
-    // })
 
   
 
     ApiService.getResourceEntry("v3/content/widgets").then((res) => {
-      // console.log("widgets proper");
       this.setState({ loading: false });
-      // console.log(res);
     });
   }
 
@@ -379,7 +328,6 @@ export default class Settings extends React.Component {
       <div className="container">
         <PageHeader
           className="site-page-header"
-          // onBack={() => null}
           title="Threekit Setup"
         >
           <Content>

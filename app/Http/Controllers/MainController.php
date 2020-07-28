@@ -12,9 +12,13 @@ use GuzzleHttp\Client;
 
 class MainController extends BaseController
 {
+
     protected $baseURL;
 
-    
+    public function getUserKey($storeHash, $email)
+    {
+        return "threekit.connector:$storeHash:$email";
+    }
 
     public function __construct()
     {
@@ -55,10 +59,6 @@ class MainController extends BaseController
 
     public function install(Request $request)
     {
-        // Test
-        // $redis = new Credis_Client('localhost');
-        // Test
-
 
         // Make sure all required query params have been passed
         if (!$request->has('code') || !$request->has('scope') || !$request->has('context')) {
@@ -83,13 +83,27 @@ class MainController extends BaseController
             $data = json_decode($result->getBody(), true);
 
             if ($statusCode == 200) {
+                
+
+                $key = $this->getUserKey($data['context'], $data['user']['email']);
+
+                // Store this in redis so we can make our calls
+
+                //threekit.connector:stores/9gmawh16fu:wthompson@threekit.com
+                //"{\"id\":1681920,\"username\":\"Will Thompson\",\"email\":\"wthompson@threekit.com\"}"
+                Redis::set($key, json_encode($data['user'], true));
+                // stores/9gmawh16fu/auth
+                //"{\"access_token\":\"9br56h0ldm2ourb9gklbg7b0vo496nl\",\"scope\":\"store_cart_read_only store_themes_manage store_v2_content store_v2_default store_v2_information store_v2_orders store_v2_products_read_only users_basic_information\",\"user\":{\"id\":1681920,\"username\":\"Will Thompson\",\"email\":\"wthompson@threekit.com\"},\"context\":\"stores\\/9gmawh16fu\"}"
+                Redis::set("{$data['context']}/auth", json_encode($data));
+
+
                 $request->session()->put('store_hash', $data['context']);
                 $request->session()->put('access_token', $data['access_token']);
                 $request->session()->put('user_id', $data['user']['id']);
                 $request->session()->put('user_email', $data['user']['email']);
 
-                Redis::set('store_hash', $data['context']);
-                Redis::set('access_token', $data['access_token']);
+                // Redis::set('store_hash', $data['context']);
+                // Redis::set('access_token', $data['access_token']);
 
 
 
@@ -130,14 +144,18 @@ class MainController extends BaseController
         if (!empty($signedPayload)) {
             $verifiedSignedRequestData = $this->verifySignedRequest($signedPayload, $request);
             if ($verifiedSignedRequestData !== null) {
-                Redis::set('store_hash', $data['context']);
-                Redis::set('access_token', $data['access_token']);
-                $request->session()->put('user_id', $verifiedSignedRequestData['user']['id']);
-                $request->session()->put('user_email', $verifiedSignedRequestData['user']['email']);
-                $request->session()->put('owner_id', $verifiedSignedRequestData['owner']['id']);
-                $request->session()->put('owner_email', $verifiedSignedRequestData['owner']['email']);
-                // $request->session()->put('store_hash', $storeHash);
-                $request->session()->put('store_hash', $verifiedSignedRequestData['context']);
+                $key = $this->getUserKey($verifiedSignedRequestData['store_hash'], $verifiedSignedRequestData['user']['email']);
+                $user = json_decode(Redis::get($key));
+                // $store = json_decode(Redis::get(verifiedSignedRequestData['store_hash']));
+
+                // $hash = Redis::get('store_hash');
+                // Redis::set('access_token', $data['access_token']);
+                $request->session()->keep('user_id', $verifiedSignedRequestData['user']['id']);
+                $request->session()->keep('user_email', $verifiedSignedRequestData['user']['email']);
+                $request->session()->keep('owner_id', $verifiedSignedRequestData['owner']['id']);
+                $request->session()->keep('owner_email', $verifiedSignedRequestData['owner']['email']);
+                // $request->session()->keep('store_hash', $hash);
+                $request->session()->keep('store_hash', $verifiedSignedRequestData['context']);
             } else {
                 return redirect()->action('MainController@error')->with('error_message', 'The signed request from BigCommerce could not be validated.');
             }
@@ -179,11 +197,12 @@ class MainController extends BaseController
 
     public function makeBigCommerceAPIRequest(Request $request, $endpoint)
     {
+
         $requestConfig = [
             'headers' => [
                 'X-Auth-Client' => $this->getAppClientId(),
-                // 'X-Auth-Token'  => $this->getAccessToken($request),
-                'X-Auth-Token' => Redis::get('store_hash'),
+                'X-Auth-Token'  => $this->getAccessToken($request),
+                // 'X-Auth-Token' => Redis::get('store_hash'),
                 'Content-Type'  => 'application/json',
             ]
         ];
@@ -213,8 +232,5 @@ class MainController extends BaseController
         return response($result->getBody(), $result->getStatusCode())->header('Content-Type', 'application/json');
     }
 
-    function getUserKey($storeHash, $email)
-    {
-        return "threekit.connector:$storeHash:$email";
-    }
+    
 }
