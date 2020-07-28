@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Client;
+
 
 class MainController extends BaseController
 {
@@ -53,6 +55,11 @@ class MainController extends BaseController
 
     public function install(Request $request)
     {
+        // Test
+        // $redis = new Credis_Client('localhost');
+        // Test
+
+
         // Make sure all required query params have been passed
         if (!$request->has('code') || !$request->has('scope') || !$request->has('context')) {
             return redirect()->action('MainController@error')->with('error_message', 'Not enough information was passed to install this app.');
@@ -80,6 +87,9 @@ class MainController extends BaseController
                 $request->session()->put('access_token', $data['access_token']);
                 $request->session()->put('user_id', $data['user']['id']);
                 $request->session()->put('user_email', $data['user']['email']);
+
+                Redis::set('store_hash', $data['context']);
+
 
                 // If the merchant installed the app via an external link, redirect back to the 
                 // BC installation success page for this app
@@ -120,7 +130,6 @@ class MainController extends BaseController
 
         // Test
         $data = verifySignedRequest($request->get('signed_payload'));
-        $redis = new Credis_Client('localhost');
         $key = getUserKey($verifiedSignedRequestData['context'], $verifiedSignedRequestData['user']['email']);
 
         // Test
