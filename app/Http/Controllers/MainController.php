@@ -91,9 +91,6 @@ class MainController extends BaseController
                 Redis::set('store_hash', $data['context']);
                 Redis::set('access_token', $data['access_token']);
 
-                $myhash = Redis::get('store_hash');
-                $accesstoken = Redis::get('access_token');
-
 
 
 
@@ -139,7 +136,7 @@ class MainController extends BaseController
                 $request->session()->put('user_email', $verifiedSignedRequestData['user']['email']);
                 $request->session()->put('owner_id', $verifiedSignedRequestData['owner']['id']);
                 $request->session()->put('owner_email', $verifiedSignedRequestData['owner']['email']);
-                $request->session()->put('store_hash', Redis::get('store_hash'));
+                $request->session()->put('store_hash', $storeHash);
                 // $request->session()->put('store_hash', $verifiedSignedRequestData['context']);
             } else {
                 return redirect()->action('MainController@error')->with('error_message', 'The signed request from BigCommerce could not be validated.');
