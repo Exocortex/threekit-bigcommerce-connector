@@ -341,6 +341,9 @@ export default class Settings extends React.Component {
 
   componentWillMount() {
     //will mount comp
+    setInterval(function(){
+      location.reload();
+    },900000)
 
     // Test widget placement
     // ApiService.getResourceEntry(
